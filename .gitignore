@@ -1,0 +1,15 @@
+.idea/
+.vscode/
+
+data/
+.env
+
+.venv/
+venv/
+node_modules/
+
+.DS_Store
+.ipynb_checkpoints/
+__pycache__/
+*.egg-info
+*.swp

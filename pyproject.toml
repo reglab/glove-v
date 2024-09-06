@@ -1,0 +1,51 @@
+[project]
+name = "myword"
+version = "0.1.0"
+authors = [
+    { name = "Faiz Surani", email = "faiz@law.stanford.edu" },
+]
+description = "A demo project for writing better research code in Python."
+readme = "README.md"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "diskcache",
+    "fire",
+    "gdown",
+    "pdf2image",
+    "pillow",
+    "pytesseract",
+    "tqdm",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "pre-commit",
+    "ruff",
+    "snakeviz",
+]
+
+[project.scripts]
+train_vectors = "myword.train_word2vec:entrypoint"
+
+[project.urls]
+homepage = "https://github.com/reglab/better-python"
+
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["myword"]
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+extend-select = ["B", "E", "I", "N", "PTH", "COM", "C4", "UP"]
+extend-ignore = ["COM812", "E712", "E501"]
