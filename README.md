@@ -9,16 +9,36 @@ This is the code repository for the paper "Statistical Uncertainty in Word Embed
 ![GloVe-V](figures/glove_diagram.jpg)
 
 ## HuggingFace Repository
-xx
+We store our data products on HuggingFace. You can find them [here](https://huggingface.co/datasets/reglab/glove-v). 
+
+We provide embeddings and variances for the following corpora:
+
+- **Toy Corpus (300-dim)**: a subset of 11 words from the Corpus of Historical American English (1900-1999)
+- **Corpus of Historical American English (COHA) (1900-1999) (300-dim)**
+
+Each dataset contains the following files:
+- `vocab.txt`: a list of the words in the corpus with associated frequencies
+- `vectors.safetensors`: a safetensors file containing the embeddings for each word in the corpus
+- `complete_chunk_{i}.safetensors`: a set of safetensors file containing the complete variances for each word in the corpus. These variances are size $D \times D$, where $D$ is the embedding dimensionality, and thus are very storage-intensive.
+- `approx_info.txt`: a text file containing information on the approximation used to the full variance of each word (diagonal approximation, or SVD approximation)
+- `ApproximationVariances.safetensors`: a safetensors file containing the approximation variances for each word in the corpus. These approximations require storing much fewer floating point numbers than the full variances. If a word has been approximated by a diagonal approximation, then this file will contain only $D$ floating point numbers for each word. Alternatively, if a word has been approximated by an SVD approximation of rank $k$, then this file will contain $k(2D + 1)$ floating point numbers for each word.
+
+If using the approximated variances, the `glove_v.variance.load_variance` function automaticallyhandles the reconstruction of the variances from these files. 
+
+## Storage of GloVe-V Variances
+
+Let $V$ be the size of the vocabulary and $D$ be the embedding dimension. While GloVe embeddings only require storing $V \times D$ floating point numbers, the GloVe-V variances require storing $V \times (D x D)$ floating point numbers. For this reason, we offer two download options:
+
+1. **Approximation Variances**: These are approximations to the full GloVe-V variances that can use either a diagonal approximation to the full variance, or a low-rank Singular Value Decomposition (SVD) approximation. We optimize this approximation at the level of each word to guarantee at least 90% reconstruction of the original variance. These approximations require storing much fewer floating point numbers than the full variances.
+2. **Complete Variances**: These are the full GloVe-V variances, which require storing $V \times (D x D)$ floating point numbers. For example, in the case of the 300-dimensional embeddings for the COHA (1900-1999) corpus, this would be approximately 6.4 billion floating point numbers! 
 
 
 ## Setup
 
-This project has been tested on Python 3.10, but earlier or later versions may work as well.
 First, clone this repo:
 
 ```bash
-git clone https://github.com/reglab/better-python.git myword
+git clone https://github.com/reglab/glove-v.git myword
 ```
 
 Next, install uv if you haven't already:
@@ -40,36 +60,6 @@ To activate the virtual environment:
 source .venv/bin/activate # If using fish shell, use `source .venv/bin/activate.fish` instead
 ```
 
-Generally, you will want to activate the virtual environment before running any of the scripts
-in this project. However, if you use `uv`, it can handle everything for you! Just run code with
-`uv run python <script.py>`. (You can also run anything else installed to your venv, e.g.,
-`uv run ruff check --fix`.)
-
-Using `uv run` will also automatically sync your environment with any new/removed packages
-in your `pyproject.toml` file. (See the Development section below, or the `uv` docs, for
-information about installing/maintaining dependencies.) You can read the `uv` documentation
-[here](https://docs.astral.sh/uv/getting-started/features/#projects).
-
-Then, install the dependencies and this package:
-
-```bash
-brew install tesseract  # If not on Mac, look up how to install Tesseract for your OS
-
-uv sync
-```
-
-Finally, install the git hooks:
-
-```bash
-# If you don't already have pre-commit, run: `uv tool install pre-commit`
-pre-commit install
-```
-
 ## Usage
 
-To run the download script:
-
-```bash
-python myword/download_data.py
-```
-
+Our tutorial notebook is available [here](https://github.com/reglab/glove-v/blob/main/glove_v/docs/tutorial.ipynb) and walks through the process of downloading and interacting with the GloVe-V data products.
