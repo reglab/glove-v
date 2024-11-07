@@ -1,6 +1,16 @@
-# Better Python Code
+# Statistical Uncertainty in Word Embeddings: GloVe-V
+**Andrea Vallebueno, Cassandra Handan-Nader, Christopher D. Manning, Daniel E. Ho**
 
-MyWord is a small demonstration project that shows how you can write better research code in Python.
+This is the code repository for the paper "Statistical Uncertainty in Word Embeddings: GloVe-V". Our preprint is available [here](https://arxiv.org/abs/2406.12165).
+
+**We introduce a method to obtain approximate, easy-to-use, and scalable uncertainty estimates for the GloVe word embeddings and demonstrate its usefulness in natural language tasks and computational social science analysis. This code repository contains code to download pre-computed GloVe embeddings and GloVe-V variances for several corpora from our HuggingFace repository, to interact with these data products and propagate uncertainty to downstream tasks.**
+
+
+![GloVe-V](figures/glove_diagram.jpg)
+
+## HuggingFace Repository
+xx
+
 
 ## Setup
 
@@ -63,24 +73,3 @@ To run the download script:
 python myword/download_data.py
 ```
 
-To run the "train" script:
-
-```bash
-python myword/train_word2vec.py
-```
-
-With each of these, you can add the `--help` flag to see the available options.
-
-
-## Development
-
-To add/remove dependencies later on:
-```bash
-uv add <package>  # or uv remove <package>
-uv add --dev <package>  # For dev dependencies, like pre-commit
-```
-
-## Activity
-
-The `main` branch contains the "final" version of the code, while the `initial` branch
-contains the code before the caching optimization.

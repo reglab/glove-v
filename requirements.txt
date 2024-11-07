@@ -1,0 +1,10 @@
+huggingface-hub==0.26.2
+gensim==4.3.3
+numpy==1.26.4
+scipy==1.13.1
+smart-open==7.0.4
+wrapt==1.16.0
+safetensors
+pandas
+seaborn
+
