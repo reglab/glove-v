@@ -72,6 +72,10 @@ Our tutorial notebook is available [here](https://github.com/reglab/glove-v/blob
 Here is a quick example of how to download the approximated embeddings for the Toy Corpus:
 
 ```python
+import glove_v
+```
+
+```python
 glove_v.data.download_embeddings(
     embedding_name='Toy-Embeddings',
     approximation=True,
