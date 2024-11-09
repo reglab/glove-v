@@ -3,7 +3,9 @@ name = "glove-v"
 version = "0.1.0"
 authors = [
     { name = "Andrea Vallebueno", email = "avaimar@law.stanford.edu" },
-    { name = "Cassandra Handan-Nader", email = "XX@stanford.edu" },
+    { name = "Cassandra Handan-Nader", email = "cassandra.handan-nader@nyu.edu" },
+    { name = "Christopher D. Manning", email = "manning@cs.stanford.edu" },
+    { name = "Daniel E. Ho", email = "deho@stanford.edu" },
 ]
 description = "A Python package for downloading and using GloVe vectors and GloVe-V variances."
 readme = "README.md"
@@ -15,15 +17,15 @@ classifiers = [
 ]
 requires-python = ">=3.10"
 dependencies = [
-    "diskcache",
-    "fire",
-    "gdown",
-    "pandas>=2.2.3",
-    "pdf2image",
-    "pillow",
-    "pytesseract",
     "seaborn>=0.13.2",
     "tqdm",
+    "huggingface-hub==0.26.2",
+    "gensim==4.3.3",
+    "numpy==1.26.4",
+    "scipy==1.13.1",
+    "smart-open==7.0.4",
+    "wrapt==1.16.0",
+    "safetensors",
 ]
 
 [tool.uv]
@@ -47,5 +49,5 @@ packages = ["glove_v"]
 line-length = 88
 
 [tool.ruff.lint]
-extend-select = ["B", "E", "I", "N", "PTH", "COM", "C4", "UP"]
+extend-select = ["B", "E", "I", "PTH", "COM", "C4", "UP"]
 extend-ignore = ["COM812", "E712", "E501"]

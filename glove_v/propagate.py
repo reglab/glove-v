@@ -1,11 +1,12 @@
-import numpy as np
 import statistics
+
+import numpy as np
 
 
 def sample_vector(
-        variance: np.array,
-        vector: np.array,
-        n: int,
+    variance: np.array,
+    vector: np.array,
+    n: int,
 ) -> np.array:
     """
     Returns a matrix of n samples for a word from the Normal distribution given by
@@ -21,8 +22,8 @@ def sample_vector(
 
 
 def delta_method_variance(
-        deriv_dict: dict[str, np.array],
-        variance_dict: dict[str, np.array],
+    deriv_dict: dict[str, np.array],
+    variance_dict: dict[str, np.array],
 ) -> float:
     """
     Computes the variance of of a test statistic using the Delta Method, given a dictionary of word-level derivatives and a dictionary of word-level variances.
@@ -44,6 +45,7 @@ def cosine_derivative(u: np.array, v: np.array) -> np.array:
         u: Vector u
         v: Vector v
     """
+
     def cossim(u, v):
         u_re = u.reshape(-1, 1)
         v_re = v.reshape(-1, 1)
@@ -56,10 +58,12 @@ def cosine_derivative(u: np.array, v: np.array) -> np.array:
     u_norm = np.linalg.norm(u_re)
     v_norm = np.linalg.norm(v_re)
 
-    return v_re / (u_norm * v_norm) - cossim(u, v) * u_re / (u_norm ** 2)
+    return v_re / (u_norm * v_norm) - cossim(u, v) * u_re / (u_norm**2)
 
 
-def compute_normal_confint(point_estimate: float, variance: float, alpha: float = 0.05) -> tuple[float, float]:
+def compute_normal_confint(
+    point_estimate: float, variance: float, alpha: float = 0.05
+) -> tuple[float, float]:
     """
     Computes the 100(1-alpha)% two-sided confidence intervals for a Normal distribution.
 
