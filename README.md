@@ -12,7 +12,7 @@ This is the code repository for the paper "Statistical Uncertainty in Word Embed
 If you use this software, please cite it as below:
 
 ```bibtex
-@inproceedings{vallebueno2024statistical,
+@inproceedings{glovev2024,
     title = "Statistical Uncertainty in Word Embeddings: {GloVe-V}",
     author = "Vallebueno, Andrea and Handan-Nader, Cassandra and Manning, Christopher D. and Ho, Daniel E.",
     booktitle = "Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing",
