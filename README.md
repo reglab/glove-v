@@ -5,7 +5,11 @@ This is the code repository for the paper "Statistical Uncertainty in Word Embed
 
 **We introduce a method to obtain approximate, easy-to-use, and scalable uncertainty estimates for the GloVe word embeddings and demonstrate its usefulness in natural language tasks and computational social science analysis. This code repository contains code to download pre-computed GloVe embeddings and GloVe-V variances for several corpora from our HuggingFace repository, to interact with these data products and propagate uncertainty to downstream tasks.**
 
-![GloVe-V](figures/glove_diagram.jpg)
+
+<div style="display: flex; gap: 5px;">
+    <img src="figures/vector_space_2d_coha.png" width="40%"/>
+    <img src="figures/glove_diagram.jpg" width="60%"/>
+</div>
 
 ## Citation
 
