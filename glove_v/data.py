@@ -6,10 +6,7 @@ more lightweight, and guarantee 90% reconstruction of the original variance for 
 
 from pathlib import Path
 
-import numpy as np
 from huggingface_hub import hf_hub_download
-from safetensors import safe_open
-from safetensors.numpy import save_file
 
 import glove_v.utils.file as file_utils
 
@@ -41,8 +38,8 @@ def download_embeddings(
     final_download_dir = Path(download_dir) / embedding_name
     final_download_dir.mkdir(parents=True, exist_ok=True)
 
-    # Download vocabulary and embeddings
-    for file in ["vocab.txt", "vectors.safetensors"]:
+    # Download vocabulary, embeddings and support files
+    for file in ["vocab.txt", "vectors.safetensors", "chunk_map.txt"]:
         file_path = final_download_dir / file
         if not file_path.exists():
             downloaded_path = hf_hub_download(
@@ -57,8 +54,10 @@ def download_embeddings(
 
     # Download variances
     if approximation:
-        print("[INFO] Downloading file containing approximated variances.")
-        for file in ["ApproximationVariances.safetensors", "approx_info.txt"]:
+        print("[INFO] Downloading files containing approximated variances.")
+
+        # Download support files
+        for file in ["approx_info.txt"]:
             file_path = final_download_dir / file
             if not file_path.exists():
                 downloaded_path = hf_hub_download(
@@ -70,61 +69,64 @@ def download_embeddings(
                 print(f"[INFO] Downloaded {file}: {downloaded_path}")
             else:
                 print(f"[INFO] {file} already exists in {final_download_dir}")
+
+        # Download approximation files using same pattern as complete files
+        chunk_idx = 0
+        while True:
+            try:
+                file_path = final_download_dir / f"approxchunk_{chunk_idx}.safetensors"
+                if not file_path.exists():
+                    downloaded_path = hf_hub_download(
+                        repo_id="reglab/glove-v",
+                        filename=f"{embedding_name}/approxchunk_{chunk_idx}.safetensors",
+                        local_dir=download_dir,
+                        repo_type="dataset",
+                    )
+                    print(f"[INFO] Downloaded {file_path}")
+                chunk_idx += 1
+            except Exception:
+                # No more chunks to download
+                break
+
     else:
-        print("[INFO] Downloading file containing complete variances.")
-
-        output_path = final_download_dir / "CompleteVariances.safetensors"
-        if not output_path.exists():
-            download_and_reconstruct_complete_safetensor(
-                embedding_name=embedding_name,
-                download_dir=download_dir,
-                output_path=str(output_path),
-            )
-        else:
-            print(f"[INFO] Complete.safetensors already exists in {final_download_dir}")
+        download_complete_safetensors(
+            embedding_name=embedding_name,
+            download_dir=download_dir,
+        )
 
 
-def download_and_reconstruct_complete_safetensor(
+def download_complete_safetensors(
     embedding_name: str,
     download_dir: str,
-    output_path: str,
 ) -> None:
     """
-    Downloads chunked safetensor files from HuggingFace and reconstructs the complete safetensor
-    containing the original variances.
+    Downloads chunked safetensor files from HuggingFace.
 
     Args:
         embedding_name: Name of the corpus on HuggingFace
         download_dir: Path where to save the downloaded chunks
-        output_path: Path where to save the reconstructed complete safetensor
     """
     chunk_idx = 0
-    all_variances = []
 
     while True:
         try:
             # Download chunk
-            chunk_path = hf_hub_download(
-                repo_id="reglab/glove-v",
-                filename=f"{embedding_name}/complete_chunk_{chunk_idx}.safetensors",
-                local_dir=download_dir,
-                repo_type="dataset",
+            file_path = (
+                Path(download_dir)
+                / embedding_name
+                / f"completechunk_{chunk_idx}.safetensors"
             )
-
-            # Load chunk data
-            with safe_open(chunk_path, framework="numpy") as f:
-                # Get variances from chunk
-                variances_chunk = f.get_tensor("variances")
-                all_variances.append(variances_chunk)
+            if not file_path.exists():
+                _ = hf_hub_download(
+                    repo_id="reglab/glove-v",
+                    filename=f"{embedding_name}/completechunk_{chunk_idx}.safetensors",
+                    local_dir=download_dir,
+                    repo_type="dataset",
+                )
+                print(f"[INFO] Downloaded {file_path}")
 
             chunk_idx += 1
 
         except Exception:
             # No more chunks to download
             break
-
-    # Concatenate all variance chunks
-    complete_variances = np.concatenate(all_variances, axis=0)
-
-    # Save reconstructed complete safetensor
-    save_file({"variances": complete_variances}, output_path)
