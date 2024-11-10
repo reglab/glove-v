@@ -40,7 +40,7 @@ def load_variance(
                 diagonal = f.get_tensor(f"diag_{word_idx}")
                 return np.diag(diagonal)
 
-            # Otherwise, it must be an SVD approximation
+            # SVD approximation
             elif f"U_{word_idx}" in f.keys():
                 U = f.get_tensor(f"U_{word_idx}")
                 s = f.get_tensor(f"s_{word_idx}")
@@ -48,6 +48,11 @@ def load_variance(
 
                 # Reconstruct using SVD components: U * diag(s) * Vt
                 return U @ np.diag(s) @ Vt
+
+            # Complete approximation (SVD unavailable)
+            elif f"complete_{word_idx}" in f.keys():
+                complete = f.get_tensor(f"complete_{word_idx}")
+                return complete
 
             else:
                 raise KeyError(
