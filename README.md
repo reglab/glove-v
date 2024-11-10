@@ -7,8 +7,12 @@ This is the code repository for the paper "Statistical Uncertainty in Word Embed
 
 
 <div style="display: flex; gap: 5px;">
-    <img src="figures/vector_space_2d_coha.png" width="40%"/>
-    <img src="figures/glove_diagram.jpg" width="60%"/>
+    <div width="30%">
+    <img src="figures/vector_space_2d_coha.png"/>
+    </div>
+    <div width="70%">
+    <img src="figures/glove_diagram.jpg"/>
+    </div>
 </div>
 
 ## Citation
