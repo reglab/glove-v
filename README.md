@@ -1,7 +1,7 @@
 # Statistical Uncertainty in Word Embeddings: GloVe-V
 **Andrea Vallebueno, Cassandra Handan-Nader, Christopher D. Manning, Daniel E. Ho**
 
-This is the code repository for the paper "Statistical Uncertainty in Word Embeddings: GloVe-V". Our preprint is available [here](https://arxiv.org/abs/2406.12165).
+This is the code repository for the paper "Statistical Uncertainty in Word Embeddings: GloVe-V". Our paper is available [here](https://aclanthology.org/2024.emnlp-main.510/).
 
 **We introduce a method to obtain approximate, easy-to-use, and scalable uncertainty estimates for the GloVe word embeddings and demonstrate its usefulness in natural language tasks and computational social science analysis. This code repository contains code to download pre-computed GloVe embeddings and GloVe-V variances for several corpora from our HuggingFace repository, to interact with these data products and propagate uncertainty to downstream tasks.**
 
@@ -9,20 +9,6 @@ This is the code repository for the paper "Statistical Uncertainty in Word Embed
 |:---:|:---:|
 | <img src="figures/vector_space_2d_coha.png" width="300"/> | <img src="figures/glove_diagram.jpg" width="700"/> |
 
-## Citation
-
-If you use this software, please cite it as below:
-
-```bibtex
-@inproceedings{glovev2024,
-    title = "Statistical Uncertainty in Word Embeddings: {GloVe-V}",
-    author = "Vallebueno, Andrea and Handan-Nader, Cassandra and Manning, Christopher D. and Ho, Daniel E.",
-    booktitle = "Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing",
-    year = "2024",
-    publisher = "Association for Computational Linguistics",
-    location = "Miami, Florida"
-}
-```
 
 ## Available Corpora
 
@@ -128,4 +114,29 @@ We also offer a Gensim integration for working with GloVe-V embeddings using Gen
 gensim_glovev_kv = glove_v.GloVeVKeyedVectors(
     embedding_name='Toy-Embeddings',
 )
+```
+
+## Citation
+
+If you use this software, please cite it as below:
+
+```bibtex
+@inproceedings{vallebueno-etal-2024-statistical,
+    title = "Statistical Uncertainty in Word Embeddings: {G}lo{V}e-{V}",
+    author = "Vallebueno, Andrea  and
+      Handan-Nader, Cassandra  and
+      Manning, Christopher D  and
+      Ho, Daniel E.",
+    editor = "Al-Onaizan, Yaser  and
+      Bansal, Mohit  and
+      Chen, Yun-Nung",
+    booktitle = "Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing",
+    month = nov,
+    year = "2024",
+    address = "Miami, Florida, USA",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2024.emnlp-main.510",
+    pages = "9032--9047",
+    abstract = "Static word embeddings are ubiquitous in computational social science applications and contribute to practical decision-making in a variety of fields including law and healthcare. However, assessing the statistical uncertainty in downstream conclusions drawn from word embedding statistics has remained challenging. When using only point estimates for embeddings, researchers have no streamlined way of assessing the degree to which their model selection criteria or scientific conclusions are subject to noise due to sparsity in the underlying data used to generate the embeddings. We introduce a method to obtain approximate, easy-to-use, and scalable reconstruction error variance estimates for GloVe, one of the most widely used word embedding models, using an analytical approximation to a multivariate normal model. To demonstrate the value of embeddings with variance (GloVe-V), we illustrate how our approach enables principled hypothesis testing in core word embedding tasks, such as comparing the similarity between different word pairs in vector space, assessing the performance of different models, and analyzing the relative degree of ethnic or gender bias in a corpus using different word lists.",
+}
 ```
